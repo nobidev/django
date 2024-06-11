@@ -1,4 +1,5 @@
 import django.contrib.auth.models
+from django.contrib.auth import models as auth_models
 from django.contrib.auth import validators
 from django.db import migrations, models
 from django.utils import timezone
@@ -34,6 +35,7 @@ class Migration(migrations.Migration):
                 ("codename", models.CharField(max_length=100, verbose_name="codename")),
             ],
             options={
+                "db_table": auth_models.Permission._meta.db_table,
                 "ordering": [
                     "content_type__app_label",
                     "content_type__model",
@@ -71,6 +73,7 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
+                "db_table": auth_models.Group._meta.db_table,
                 "verbose_name": "group",
                 "verbose_name_plural": "groups",
             },
@@ -193,6 +196,7 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
+                "db_table": auth_models.User._meta.db_table,
                 "swappable": "AUTH_USER_MODEL",
                 "verbose_name": "user",
                 "verbose_name_plural": "users",

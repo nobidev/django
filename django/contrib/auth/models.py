@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
@@ -12,6 +13,8 @@ from django.utils.itercompat import is_iterable
 from django.utils.translation import gettext_lazy as _
 
 from .validators import UnicodeUsernameValidator
+
+db_prefix = getattr(settings, 'AUTH_DB_TABLE_PREFIX', 'auth')
 
 
 def update_last_login(sender, user, **kwargs):
@@ -70,6 +73,7 @@ class Permission(models.Model):
     objects = PermissionManager()
 
     class Meta:
+        db_table = getattr(settings, 'AUTH_PERMISSION_DB_TABLE', '%s_permission' % db_prefix)
         verbose_name = _("permission")
         verbose_name_plural = _("permissions")
         unique_together = [["content_type", "codename"]]
@@ -123,6 +127,7 @@ class Group(models.Model):
     objects = GroupManager()
 
     class Meta:
+        db_table = getattr(settings, 'AUTH_GROUP_DB_TABLE', '%s_group' % db_prefix)
         verbose_name = _("group")
         verbose_name_plural = _("groups")
 
@@ -411,6 +416,7 @@ class User(AbstractUser):
     """
 
     class Meta(AbstractUser.Meta):
+        db_table = getattr(settings, 'AUTH_USER_DB_TABLE', '%s_user' % db_prefix)
         swappable = "AUTH_USER_MODEL"
 
 
