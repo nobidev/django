@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import validators
 from django.db import migrations, models
 
@@ -19,6 +20,7 @@ class Migration(migrations.Migration):
                 ),
                 max_length=150,
                 unique=True,
+                null=getattr(settings, 'AUTH_USER_ALLOW_USERNAME_NULL', None),
                 validators=[validators.UnicodeUsernameValidator()],
                 verbose_name="username",
             ),

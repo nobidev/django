@@ -350,6 +350,7 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
         _("username"),
         max_length=150,
         unique=True,
+        null=getattr(settings, 'AUTH_USER_ALLOW_USERNAME_NULL', None),
         help_text=_(
             "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
         ),
